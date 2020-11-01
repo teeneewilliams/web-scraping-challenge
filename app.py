@@ -22,12 +22,14 @@ def home():
 # Route that will trigger the scrape function
 @app.route("/scrape")
 def scrape():
-
-    # Run the scrape function
-    mars_data = mission_to_mars.scrape()
+    # To initiate MongoDB
+    mars = mongo.db.mars
+    
+    # Run the scrape function to the mission to mars.py file -> to the function scrape
+    mars_data = mission_to_mars.scrape_all()
 
     # Update the Mongo database using update and upsert=True
-    mars = mongo.db.mars
+    # This update function is storing the data into the database
     mars.update({}, mars_data, upsert=True)
 
     # Redirect back to home page

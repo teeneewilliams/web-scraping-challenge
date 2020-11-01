@@ -5,11 +5,12 @@ import pandas as pd
 import requests
 import time
 
+
 def init_browser():
     executable_path = {"executable_path": "/usr/local/bin/chromedriver"}
     browser = Browser("chrome", **executable_path, headless=False)
 
-def scrape():
+def scrape_all():
     browser = init_browser()
     #-------------Mars News--------------
     # To scrape the URL
@@ -22,15 +23,7 @@ def scrape():
 
     # to avoid lag time
     time.sleep(2)
-    url = "https://mars.nasa.gov/news/"
     
-    browser.visit(url)
-
-    time.sleep(2)
-        
-    # Scrape page into Soup
-    html = browser.html
-    soup = bs(html, "html.parser")
         
     # Get the latest news title and paragraph text
     article = soup.find('div', class_='list_text')
@@ -69,8 +62,6 @@ def scrape():
     # To read html using pandas
     mars_html = browser.html
     tables = pd.read_html(mars_html)
-
-    mars_soup = bs(mars_html, 'html.parser')
    
     # To show in dataframe table
     df = pd.DataFrame(tables[2])
@@ -142,3 +133,7 @@ def scrape():
     browser.quit()
 
     return mars_dict
+    
+    #To initialize the main scrape function
+if __name__ == "__main__":  
+    scrape_all()
